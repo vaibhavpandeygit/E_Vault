@@ -11,7 +11,7 @@ require('dotenv').config()
 
 const registerController= async(req,res)=>{
     try {
-        const {name,email,password,phone} = req.body;
+        const {name,email,password} = req.body;
 
         //----Validations----
         if(!name){
@@ -22,9 +22,6 @@ const registerController= async(req,res)=>{
         }
         else if(!password){
             return res.send({message: "Password is required"})
-        }
-        else if(!phone){
-            return res.send({message: "Phone is required"})
         }
 
         //----Check existing User----
@@ -40,7 +37,7 @@ const registerController= async(req,res)=>{
         const hashedPassword = await hashPassword(password)
 
         //----registering----
-        const user = await new userModel({name,email,phone,password:hashedPassword}).save();
+        const user = await new userModel({name,email,password:hashedPassword}).save();
         res.status(201).send({
             success: true,
             message: "User Registered Successfully",
@@ -95,15 +92,33 @@ const loginController=async(req,res)=>{
         })
         res.status(200).send({
             success: true,
-            name: user.name,
-            email: user.email,
-            phone: user.phone,
+            user:{
+                name: user.name,
+                email: user.email
+            },
             token
         })
     } catch (error) {
         res.status(500).send({
             message: error.message
         })
+    }
+}
+
+const docsUpload=async(req,res)=>{
+    try {
+        const data = req.body;
+
+        if(!data){
+            return res.status(200).send({
+                success: false,
+                message: "Not Recieved"
+            })
+        }
+        const docs = await userModel.findOne({email:data.email})
+        
+    } catch (error) {
+        console.log(error)
     }
 }
 

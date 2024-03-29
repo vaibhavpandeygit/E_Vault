@@ -10,14 +10,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    phone: {
-        type: Number,
-        required: true
-    },
     password: {
         type: String,
         required: true
-    }
+    },
+    docs: [{docsname:String,docshash:String}]
 },{timestamps:true})
 
 const userModel = mongoose.model('user',userSchema)

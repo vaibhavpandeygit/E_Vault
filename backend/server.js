@@ -2,8 +2,11 @@ const express = require('express')
 const app = express();
 const {dbConnect} = require('./config/dbConnect');
 const { router } = require('./routes/authRoute');
+const cors = require('cors')
 
 require('dotenv').config()
+
+app.use(cors())
 
 app.use(express.json())
 dbConnect();
