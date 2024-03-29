@@ -13,6 +13,10 @@ dbConnect();
 
 app.use('/e_vault/auth',router)
 
+app.get('/',(req,res)=>{
+    res.send("bhut badia")
+})
+
 app.listen(process.env.PORT,()=>{
     console.log('Server Started on',process.env.PORT);
 })

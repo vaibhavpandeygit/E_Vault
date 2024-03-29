@@ -107,19 +107,22 @@ const loginController=async(req,res)=>{
 
 const docsUpload=async(req,res)=>{
     try {
-        const data = req.body;
+        const {email,docsname,docshash} = req.body;
 
-        if(!data){
+        if(!email || !docsname || !docshash){
             return res.status(200).send({
                 success: false,
                 message: "Not Recieved"
             })
         }
-        const docs = await userModel.findOne({email:data.email})
-        
+        const docs = await userModel.findOneAndUpdate({email}, {$addToSet: {docs: {docsname:docsname,docshash:docshash}}})
+        res.status(201).send({
+            success: true,
+            message: "Successfully uploaded"
+        })
     } catch (error) {
         console.log(error)
     }
 }
 
-module.exports = {registerController,loginController}
+module.exports = {registerController,loginController, docsUpload}
