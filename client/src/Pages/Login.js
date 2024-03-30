@@ -29,20 +29,20 @@ const Login = () => {
       })
 
       if(response && response.data.success){
-        toast.success(response.data.message)
+        alert("Logged in successfully")
         localStorage.setItem('auth',JSON.stringify({
           user: response.data.user,
           token: response.data.token
         }))
       }
       else{
-        toast.error(response.data.message)
+        alert("Error Occured")
       }
 
       setEmail("");
       setPassword("");
       
-        navigate('/dashboard/user')
+      navigate('/dashboard/user')
       
     } catch (error) {
       console.log(error)

@@ -1,17 +1,23 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import {useAuth} from '../../context/authContext'
 
 const UploadDocs = () => {
 
       const [documents,setDocuments] = useState("");
-      // const [name,setName] = useState("");
+      const [docsname,setDocsName] = useState("");
+
+      const [auth,setAuth] = useAuth();
 
       const api_key = process.env.REACT_APP_API_KEY;
       const api_secret = process.env.REACT_APP_API_SECRET;
 
+
       const handleSubmit= async(event)=>{
         event.preventDefault();
+        
         try {
+          
           const fd = new FormData();
           fd.append("file",documents);
 
@@ -26,10 +32,22 @@ const UploadDocs = () => {
             }
           })
 
-          console.log(response);
+          
+
+          console.log(response.data.IpfsHash)
+
+          
+            const res = await axios.put('http://localhost:5000/e_vault/auth/docsupload',{
+              docsname: docsname,
+              docshash: response.data.IpfsHash,
+              email: auth.user.email,
+            }).then(alert("Successfully Uploaded"))
+            
+            setDocuments("");
+            setDocsName("");
           
         } catch (error) {
-          console.log(error.message)
+          alert("Something went wrong")
         }
         
       }
@@ -61,12 +79,11 @@ const UploadDocs = () => {
               <form onSubmit={handleSubmit}>
                 <div className='form-group mx-sm'>
                   <input style={{"width":"30%"}} type="file" className='form-control m-1' onChange={(e)=>setDocuments(e.target.files[0])} required/>
-                  {/* <label className='m-1'>Name of Document: </label> */}
-                  {/* <input onChange={(e)=>setName(e.target.value)} style={{"borderColor":"black","width":"50%"}} className='form-control' type='text' required/> */}
-                  <button type='submit' className='btn btn-success m-1 mt-2'>Submit</button>
+                  <label className='m-1'>Name of Document: </label>
+                  <input onChange={(e)=>setDocsName(e.target.value)} style={{"borderColor":"black","width":"50%"}} className='form-control' type='text' required/>
+                  <button type='submit' className='btn btn-success m-1 mt-2'>Upload</button>
                 </div>
               </form>
-
 
             </div>
           </div>

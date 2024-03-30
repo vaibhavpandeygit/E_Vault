@@ -93,6 +93,7 @@ const loginController=async(req,res)=>{
         res.status(200).send({
             success: true,
             user:{
+                id: user._id,
                 name: user.name,
                 email: user.email
             },
@@ -107,7 +108,7 @@ const loginController=async(req,res)=>{
 
 const docsUpload=async(req,res)=>{
     try {
-        const {email,docsname,docshash} = req.body;
+        const {docsname,docshash,email} = req.body;
 
         if(!email || !docsname || !docshash){
             return res.status(200).send({
@@ -121,6 +122,11 @@ const docsUpload=async(req,res)=>{
             message: "Successfully uploaded"
         })
     } catch (error) {
+        res.send({
+            success: false,
+            message: error.message,
+            given: req.headers.Authorization
+        })
         console.log(error)
     }
 }

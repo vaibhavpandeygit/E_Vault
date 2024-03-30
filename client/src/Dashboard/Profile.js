@@ -9,11 +9,11 @@ const Profile = () => {
 
   return (
     <div>
-      <div class="card" style={{"width": "20rem"}}>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">Name: {auth.user.name}</li>
-          <li class="list-group-item">Email: {auth.user.email}</li>
-          <li class="list-group-item"><button onClick={()=>navigate('/dashboard/user/documents')} className='btn btn-success m-1 mt-2'>Upload Docs</button></li>
+      <div className="card" style={{"width": "20rem"}}>
+        <ul className="list-group list-group-flush">
+          <li className="list-group-item">Name: {auth.user.name}</li>
+          <li className="list-group-item">Email: {auth.user.email}</li>
+          <li className="list-group-item"><button onClick={()=>navigate('/dashboard/user/documents')} className='btn btn-success m-1 mt-2'>Upload Docs</button></li>
         </ul>
       </div>
     </div>
